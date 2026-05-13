@@ -5,7 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roskilde 2026 Guide</title>
     <style>
-        :root { --primary: #ff6600; --bg: #f4f4f4; --card-bg: #fff; --text: #333; --gold: #ffd700; }
+        :root { 
+            --primary: #ff6600; 
+            --bg: #f4f4f4; 
+            --card-bg: #fff; 
+            --text: #333; 
+            --gold: #ffd700; 
+            
+            /* STAGE COLORS - Updated per your spreadsheet */
+            --color-orange: #ff6600;
+            --color-arena: #28a745; /* GREEN as requested */
+            --color-lagune: #17a2b8; /* Teal for Lagune */
+            --color-eos: #dc3545;
+            --color-fauna: #6f42c1;
+            --color-gloria: #ffc107;
+            --color-platform: #6c757d;
+        }
+
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 80px; }
         
         /* Header */
@@ -26,12 +42,7 @@
             top: 60px;
             z-index: 95;
         }
-        .toggle-switch {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            user-select: none;
-        }
+        .toggle-switch { display: flex; align-items: center; cursor: pointer; user-select: none; }
         .toggle-label { margin-right: 8px; color: #555; }
         .toggle-input { display: none; }
         .toggle-slider {
@@ -74,14 +85,14 @@
             display: flex; align-items: center; justify-content: center;
         }
 
-        /* Stage Colors */
-        .stage-Orange { border-left-color: #ff6600; }
-        .stage-Arena { border-left-color: #007bff; }
-        .stage-Lagune { border-left-color: #28a745; }
-        .stage-EOS { border-left-color: #dc3545; }
-        .stage-Fauna { border-left-color: #6f42c1; }
-        .stage-Gloria { border-left-color: #fd7e14; }
-        .stage-Platform { border-left-color: #6c757d; }
+        /* STAGE COLOR CLASSES - UPDATED */
+        .stage-Orange { border-left-color: var(--color-orange); }
+        .stage-Arena { border-left-color: var(--color-arena); } /* GREEN */
+        .stage-Lagune { border-left-color: var(--color-lagune); }
+        .stage-EOS { border-left-color: var(--color-eos); }
+        .stage-Fauna { border-left-color: var(--color-fauna); }
+        .stage-Gloria { border-left-color: var(--color-gloria); }
+        .stage-Platform { border-left-color: var(--color-platform); }
         
         .empty-msg { text-align: center; color: #888; padding: 20px; font-style: italic; }
     </style>
@@ -272,6 +283,7 @@
 
             const isFav = favorites.includes(event.n);
             const card = document.createElement('div');
+            // Map stage names to CSS classes (remove " Scene" if present for class matching)
             const stageClass = event.s.replace(" Scene", ""); 
             card.className = `artist-card stage-${stageClass} ${isFav ? 'is-fav' : ''}`;
             
