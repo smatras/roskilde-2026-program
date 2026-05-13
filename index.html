@@ -12,10 +12,10 @@
             --text: #333; 
             --gold: #ffd700; 
             
-            /* STAGE COLORS - Updated per your spreadsheet */
+            /* STAGE COLORS */
             --color-orange: #ff6600;
-            --color-arena: #28a745; /* GREEN as requested */
-            --color-lagune: #17a2b8; /* Teal for Lagune */
+            --color-arena: #28a745; /* GREEN */
+            --color-lagune: #17a2b8; /* TEAL */
             --color-eos: #dc3545;
             --color-fauna: #6f42c1;
             --color-gloria: #ffc107;
@@ -24,43 +24,91 @@
 
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 80px; }
         
-        /* Header */
-        header { background: var(--primary); color: white; padding: 1rem; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        h1 { margin: 0; font-size: 1.2rem; font-weight: 600; }
+        /* HEADER */
+        header { 
+            background: var(--primary); 
+            color: white; 
+            padding: 10px 15px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between;
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+        }
+        h1 { margin: 0; font-size: 1.1rem; font-weight: 600; flex-shrink: 0; }
 
-        /* Controls Bar (Filter) */
-        .controls-bar {
-            background: white;
-            padding: 8px 10px;
-            border-bottom: 1px solid #ddd;
+        /* SEGMENTED CONTROL */
+        .segmented-control {
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            padding: 2px;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-size: 0.9rem;
-            position: sticky;
-            top: 60px;
-            z-index: 95;
+            position: relative;
+            flex-grow: 1;
+            margin: 0 15px;
+            max-width: 200px;
         }
-        .toggle-switch { display: flex; align-items: center; cursor: pointer; user-select: none; }
-        .toggle-label { margin-right: 8px; color: #555; }
-        .toggle-input { display: none; }
-        .toggle-slider {
-            width: 40px; height: 22px; background: #ccc; border-radius: 20px; position: relative; transition: 0.3s;
+        .segment-opt {
+            flex: 1;
+            text-align: center;
+            padding: 6px 0;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            z-index: 2;
+            transition: color 0.3s;
         }
-        .toggle-slider::before {
-            content: ""; position: absolute; width: 18px; height: 18px; border-radius: 50%; background: white; top: 2px; left: 2px; transition: 0.3s;
+        .segment-opt.active {
+            background: white;
+            color: var(--primary);
+            border-radius: 18px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
-        .toggle-input:checked + .toggle-slider { background: var(--primary); }
-        .toggle-input:checked + .toggle-slider::before { transform: translateX(18px); }
 
-        /* Day Tabs */
-        .day-nav { display: flex; overflow-x: auto; background: white; padding: 10px 0; border-bottom: 1px solid #ddd; position: sticky; top: 110px; z-index: 90; scrollbar-width: none; }
+        /* INFO BUTTON */
+        .info-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 5px;
+            flex-shrink: 0;
+        }
+        .info-btn:hover { background: rgba(255,255,255,0.2); }
+
+        /* DAY TABS */
+        .day-nav { 
+            display: flex; 
+            overflow-x: auto; 
+            background: white; 
+            padding: 10px 0; 
+            border-bottom: 1px solid #ddd; 
+            position: sticky; 
+            top: 60px; 
+            z-index: 90; 
+            scrollbar-width: none; 
+        }
         .day-nav::-webkit-scrollbar { display: none; }
-        .day-btn { flex: 0 0 auto; padding: 8px 16px; margin: 0 5px; border: 1px solid #ddd; border-radius: 20px; background: white; color: #555; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; }
+        .day-btn { 
+            flex: 0 0 auto; 
+            padding: 8px 16px; 
+            margin: 0 5px; 
+            border: 1px solid #ddd; 
+            border-radius: 20px; 
+            background: white; 
+            color: #555; 
+            font-size: 0.9rem; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+        }
         .day-btn.active { background: var(--primary); color: white; border-color: var(--primary); font-weight: bold; }
 
-        /* Schedule List */
+        /* SCHEDULE LIST */
         .schedule-container { padding: 10px; max-width: 600px; margin: 0 auto; }
         .time-block { margin-bottom: 20px; }
         .time-header { font-weight: bold; color: #666; font-size: 0.85rem; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -72,7 +120,6 @@
         }
         .artist-card:active { transform: scale(0.98); }
         
-        /* Favorite Styles */
         .artist-card.is-fav { border-left-color: var(--gold); background: #fffdf5; }
         .artist-card.is-fav .star-icon { color: var(--gold); }
 
@@ -85,9 +132,9 @@
             display: flex; align-items: center; justify-content: center;
         }
 
-        /* STAGE COLOR CLASSES - UPDATED */
+        /* STAGE COLOR CLASSES */
         .stage-Orange { border-left-color: var(--color-orange); }
-        .stage-Arena { border-left-color: var(--color-arena); } /* GREEN */
+        .stage-Arena { border-left-color: var(--color-arena); }
         .stage-Lagune { border-left-color: var(--color-lagune); }
         .stage-EOS { border-left-color: var(--color-eos); }
         .stage-Fauna { border-left-color: var(--color-fauna); }
@@ -95,24 +142,77 @@
         .stage-Platform { border-left-color: var(--color-platform); }
         
         .empty-msg { text-align: center; color: #888; padding: 20px; font-style: italic; }
+
+        /* INFO MODAL */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 200;
+            display: none; align-items: center; justify-content: center;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-content {
+            background: white; width: 90%; max-width: 400px; max-height: 80vh;
+            border-radius: 12px; padding: 20px; overflow-y: auto;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .modal-title { font-size: 1.2rem; font-weight: bold; color: var(--primary); }
+        .close-modal { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #888; }
+        .modal-body p { font-size: 0.9rem; line-height: 1.5; color: #444; margin-bottom: 12px; }
+        .modal-body h3 { font-size: 1rem; color: #333; margin-top: 15px; margin-bottom: 5px; }
+        .modal-body ul { padding-left: 20px; font-size: 0.9rem; color: #555; }
+        .modal-body li { margin-bottom: 5px; }
+        .modal-link { color: var(--primary); text-decoration: none; font-weight: 600; }
+        .modal-link:hover { text-decoration: underline; }
+        .spreadsheet-img { width: 100%; border-radius: 8px; margin: 10px 0; border: 1px solid #eee; }
     </style>
 </head>
 <body>
 
-<header><h1>Roskilde 2026</h1></header>
+<!-- HEADER -->
+<header>
+    <h1>Roskilde 2026</h1>
+    
+    <!-- Segmented Control -->
+    <div class="segmented-control">
+        <div class="segment-opt active" id="segAll" onclick="setFilter(false)">Show All</div>
+        <div class="segment-opt" id="segFav" onclick="setFilter(true)">Favorites</div>
+    </div>
 
-<!-- Filter Toggle -->
-<div class="controls-bar">
-    <label class="toggle-switch">
-        <span class="toggle-label">Show All</span>
-        <input type="checkbox" id="favToggle" class="toggle-input">
-        <span class="toggle-slider"></span>
-        <span class="toggle-label" style="color:var(--primary); font-weight:bold;">Favorites</span>
-    </label>
-</div>
+    <button class="info-btn" onclick="openModal()">Info</button>
+</header>
 
+<!-- DAY TABS -->
 <div class="day-nav" id="dayNav"></div>
+
+<!-- SCHEDULE -->
 <div class="schedule-container" id="scheduleList"></div>
+
+<!-- INFO MODAL -->
+<div class="modal-overlay" id="infoModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title">How to Use</div>
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <h3>Why use this app?</h3>
+            <p>This is a <strong>Progressive Web App (PWA)</strong>. It's lightweight, fast, and works offline once loaded. No app store download needed!</p>
+            
+            <h3>Add to Home Screen</h3>
+            <p><strong>iPhone (Safari):</strong><br>Tap the Share button (box with arrow) → Scroll down → Tap <strong>"Add to Home Screen"</strong>.</p>
+            <p><strong>Android (Chrome):</strong><br>Tap the three dots (menu) → Tap <strong>"Add to Home screen"</strong> or "Install App".</p>
+            
+            <h3>Favorites</h3>
+            <p>Tap the <strong>★</strong> next to any artist to save them. Use the toggle at the top to see only your favorites.</p>
+            
+            <h3>Original Schedule</h3>
+            <p>Prefer the spreadsheet? View the original color-coded grid here:</p>
+            <a href="https://github.com/YOUR_USERNAME/roskilde-2026-guide/blob/main/roskilde_2026_color-coded_-_Wednesday_1_Jul.xlsx" target="_blank" class="modal-link">View Spreadsheet (GitHub)</a>
+            <p style="font-size:0.8rem; color:#888; margin-top:5px;">(Replace link with your actual file link if hosted elsewhere)</p>
+        </div>
+    </div>
+</div>
 
 <script>
     // --- DATA ---
@@ -204,35 +304,34 @@
         ]
     };
 
-    // --- STATE MANAGEMENT ---
+    // --- STATE ---
     const days = Object.keys(scheduleData);
     let currentDayIndex = 0;
     let showFavoritesOnly = false;
-
-    // Load favorites from LocalStorage
     let favorites = JSON.parse(localStorage.getItem('rks_favorites')) || [];
 
     // --- FUNCTIONS ---
     function init() {
         renderDayNav();
         renderSchedule(days[currentDayIndex]);
-        
-        // Setup Toggle Listener
-        document.getElementById('favToggle').addEventListener('change', (e) => {
-            showFavoritesOnly = e.target.checked;
-            renderSchedule(days[currentDayIndex]);
-        });
+    }
+
+    function setFilter(isFav) {
+        showFavoritesOnly = isFav;
+        document.getElementById('segAll').classList.toggle('active', !isFav);
+        document.getElementById('segFav').classList.toggle('active', isFav);
+        renderSchedule(days[currentDayIndex]);
     }
 
     function toggleFavorite(artistName) {
         const index = favorites.indexOf(artistName);
         if (index > -1) {
-            favorites.splice(index, 1); // Remove
+            favorites.splice(index, 1);
         } else {
-            favorites.push(artistName); // Add
+            favorites.push(artistName);
         }
         localStorage.setItem('rks_favorites', JSON.stringify(favorites));
-        renderSchedule(days[currentDayIndex]); // Re-render to update UI
+        renderSchedule(days[currentDayIndex]);
     }
 
     function renderDayNav() {
@@ -263,17 +362,13 @@
         let hasVisibleEvents = false;
 
         events.forEach(event => {
-            // Filter Logic
-            if (showFavoritesOnly && !favorites.includes(event.n)) {
-                return; // Skip this event
-            }
+            if (showFavoritesOnly && !favorites.includes(event.n)) return;
             hasVisibleEvents = true;
 
             if (event.t !== currentTime) {
                 currentTime = event.t;
                 timeBlock = document.createElement('div');
                 timeBlock.className = 'time-block';
-                
                 const header = document.createElement('div');
                 header.className = 'time-header';
                 header.textContent = currentTime;
@@ -283,7 +378,6 @@
 
             const isFav = favorites.includes(event.n);
             const card = document.createElement('div');
-            // Map stage names to CSS classes (remove " Scene" if present for class matching)
             const stageClass = event.s.replace(" Scene", ""); 
             card.className = `artist-card stage-${stageClass} ${isFav ? 'is-fav' : ''}`;
             
@@ -303,6 +397,19 @@
             container.innerHTML = '<div class="empty-msg">No favorites for this day yet. Tap the star ★ to add one!</div>';
         }
     }
+
+    // Modal Functions
+    function openModal() {
+        document.getElementById('infoModal').classList.add('open');
+    }
+    function closeModal() {
+        document.getElementById('infoModal').classList.remove('open');
+    }
+    
+    // Close modal when clicking outside
+    document.getElementById('infoModal').addEventListener('click', (e) => {
+        if (e.target.id === 'infoModal') closeModal();
+    });
 
     init();
 </script>
