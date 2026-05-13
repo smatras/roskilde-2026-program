@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roskilde 2026</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f4f4f4; }
+        h1 { color: #ff6600; }
+        .day { margin-bottom: 30px; }
+        .day-title { font-size: 1.5rem; font-weight: bold; border-bottom: 2px solid #ff6600; padding-bottom: 5px; margin-bottom: 10px; }
+        .time { font-weight: bold; color: #555; margin-top: 10px; }
+        .artist { background: white; padding: 10px; margin: 5px 0; border-radius: 5px; border-left: 4px solid #ff6600; }
+        .stage { font-size: 0.8rem; color: #888; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <h1>Roskilde 2026 Schedule</h1>
+    <div id="app"></div>
+
+    <script>
+        // Simplified Data
+        const data = {
+            "Wednesday 1 Jul": [
+                {t:"17:00", s:"EOS", n:"BIA"}, {t:"17:00", s:"Platform", n:"Dorotea Saykaly"},
+                {t:"17:30", s:"Orange", n:"Pil"}, {t:"17:30", s:"Arena", n:"Joshua Idehen"},
+                {t:"22:00", s:"Orange", n:"The Cure"}
+            ],
+            "Thursday 2 Jul": [
+                {t:"18:00", s:"Orange", n:"Little Simz"}, {t:"22:00", s:"Orange", n:"Gorillaz"}
+            ],
+            "Friday 3 Jul": [
+                {t:"19:00", s:"Orange", n:"Addison Rae"}, {t:"20:30", s:"Arena", n:"David Byrne"},
+                {t:"22:00", s:"Orange", n:"Jennie"}
+            ],
+            "Saturday 4 Jul": [
+                {t:"18:30", s:"Orange", n:"Clipse"}, {t:"20:45", s:"Orange", n:"Lily Allen"},
+                {t:"23:15", s:"Orange", n:"Zara Larsson"}
+            ]
+        };
+
+        const container = document.getElementById('app');
+        
+        // Render Days
+        for (const [day, events] of Object.entries(data)) {
+            const dayDiv = document.createElement('div');
+            dayDiv.className = 'day';
+            
+            const title = document.createElement('div');
+            title.className = 'day-title';
+            title.textContent = day;
+            dayDiv.appendChild(title);
+
+            // Render Events
+            events.forEach(ev => {
+                const timeDiv = document.createElement('div');
+                timeDiv.className = 'time';
+                timeDiv.textContent = ev.t;
+                
+                const card = document.createElement('div');
+                card.className = 'artist';
+                card.innerHTML = `<strong>${ev.n}</strong><br><span class="stage">${ev.s}</span>`;
+                
+                dayDiv.appendChild(timeDiv);
+                dayDiv.appendChild(card);
+            });
+
+            container.appendChild(dayDiv);
+        }
+    </script>
+</body>
+</html>
