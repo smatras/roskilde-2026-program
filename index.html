@@ -231,223 +231,158 @@
 </div>
 
 <script>
-    // --- DATA ---
+    // --- DATA WITH EXACT LINKS ---
     const scheduleData = {
         "Wednesday 1 Jul": [
-            { t: "17:00", s: "EOS", n: "BIA" }, { t: "17:00", s: "Platform", n: "Dorotea Saykaly & Emil Dam Seidel" },
-            { t: "17:30", s: "Orange Scene", n: "Pil" }, { t: "17:30", s: "Arena", n: "Joshua Idehen" },
-            { t: "17:45", s: "Gloria", n: "Tuvaband" }, { t: "18:30", s: "Arena", n: "Pa Salieu" },
-            { t: "18:30", s: "Lagune", n: "Annie & the Caldwells" }, { t: "18:30", s: "Platform", n: "Andreas Haglund" },
-            { t: "19:30", s: "Orange Scene", n: "Wolf Alice" }, { t: "19:30", s: "Lagune", n: "Smertegrænsens Toldere" },
-            { t: "19:30", s: "Fauna", n: "Hypnosis Therapy" }, { t: "20:30", s: "Lagune", n: "ANGÅENDE MIG" },
-            { t: "20:30", s: "EOS", n: "Sama' Abdulhadi" }, { t: "20:45", s: "Arena", n: "Jade" },
-            { t: "20:45", s: "Platform", n: "1Guh Watch" }, { t: "21:00", s: "Fauna", n: "The Sophs" },
-            { t: "21:30", s: "Platform", n: "Indus" }, { t: "22:00", s: "Orange Scene", n: "The Cure" },
-            { t: "22:30", s: "Lagune", n: "Marwan Moussa" }, { t: "23:30", s: "EOS", n: "SMAG PÅ DIG SELV" },
-            { t: "23:30", s: "Platform", n: "Dying Wish" }, { t: "00:00", s: "Arena", n: "EsDeeKid" },
-            { t: "00:00", s: "Fauna", n: "Sherelle" }, { t: "00:30", s: "Lagune", n: "Primitive Man" },
-            { t: "00:45", s: "Platform", n: "PILI PILI GIRLS" }, { t: "01:30", s: "Fauna", n: "¥ØU$UK€ ¥UK1MAT$U" }
+            { t: "17:00", s: "EOS", n: "BIA", u: "bia" }, 
+            { t: "17:00", s: "Platform", n: "Dorotea Saykaly & Emil Dam Seidel", u: "dorotea-saykaly-emil-dam-seidel" },
+            { t: "17:30", s: "Orange Scene", n: "Pil", u: "pil" }, 
+            { t: "17:30", s: "Arena", n: "Joshua Idehen", u: "joshua-idehen" },
+            { t: "17:45", s: "Gloria", n: "Tuvaband", u: "tuvaband" }, 
+            { t: "18:30", s: "Arena", n: "Pa Salieu", u: "pa-salieu" },
+            { t: "18:30", s: "Lagune", n: "Annie & the Caldwells", u: "annie-the-caldwells" }, 
+            { t: "18:30", s: "Platform", n: "Andreas Haglund", u: "andreas-haglund" },
+            { t: "19:30", s: "Orange Scene", n: "Wolf Alice", u: "wolf-alice" }, 
+            { t: "19:30", s: "Lagune", n: "Smertegrænsens Toldere", u: "smertegraensens-toldere" },
+            { t: "19:30", s: "Fauna", n: "Hypnosis Therapy", u: "hypnosis-therapy" }, 
+            { t: "20:30", s: "Lagune", n: "ANGÅENDE MIG", u: "angaaende-mig" },
+            { t: "20:30", s: "EOS", n: "Sama' Abdulhadi", u: "sama-abdulhadi" }, 
+            { t: "20:45", s: "Arena", n: "Jade", u: "jade" },
+            { t: "20:45", s: "Platform", n: "1Guh Watch", u: "1guh-watch" }, 
+            { t: "21:00", s: "Fauna", n: "The Sophs", u: "the-sophs" },
+            { t: "21:30", s: "Platform", n: "Indus", u: "indus" }, 
+            { t: "22:00", s: "Orange Scene", n: "The Cure", u: "the-cure" },
+            { t: "22:30", s: "Lagune", n: "Marwan Moussa", u: "marwan-moussa" }, 
+            { t: "23:30", s: "EOS", n: "SMAG PÅ DIG SELV", u: "smag-paa-dig-selv" },
+            { t: "23:30", s: "Platform", n: "Dying Wish", u: "dying-wish" }, 
+            { t: "00:00", s: "Arena", n: "EsDeeKid", u: "esdeekid" },
+            { t: "00:00", s: "Fauna", n: "Sherelle", u: "sherelle" }, 
+            { t: "00:30", s: "Lagune", n: "Primitive Man", u: "primitive-man" },
+            { t: "00:45", s: "Platform", n: "PILI PILI GIRLS", u: "pili-pili-girls" }, 
+            { t: "01:30", s: "Fauna", n: "¥ØU$UK€ ¥UK1MAT$U", u: "yousuke-yukimatsu" }
         ],
         "Thursday 2 Jul": [
-            { t: "12:00", s: "Lagune", n: "Uld" }, { t: "12:00", s: "Platform", n: "Vilde Tuv" },
-            { t: "13:00", s: "EOS", n: "Adrian Quesada" }, { t: "13:00", s: "Gloria", n: "Dean Johnson" },
-            { t: "13:00", s: "Platform", n: "SOLI CITY x VERTIGO" }, { t: "13:30", s: "Platform", n: "Noah Umur Kanber" },
-            { t: "14:00", s: "Lagune", n: "TARRAK" }, { t: "14:30", s: "Arena", n: "Guldimund" },
-            { t: "15:00", s: "EOS", n: "Jalen Ngonda" }, { t: "15:00", s: "Fauna", n: "ŠIROM" },
-            { t: "15:00", s: "Platform", n: "Joana Öhlschläger" }, { t: "16:00", s: "Orange Scene", n: "Malk De Koijn" },
-            { t: "16:30", s: "Lagune", n: "BB Trickz" }, { t: "16:30", s: "Platform", n: "Abdullah Miniawy Trio" },
-            { t: "17:00", s: "Arena", n: "Royel Otis" }, { t: "17:00", s: "EOS", n: "Napalm Death" },
-            { t: "17:00", s: "Fauna", n: "Yerai Cortés" }, { t: "17:15", s: "Platform", n: "Dorotea Saykaly & Emil Dam Seidel" },
-            { t: "18:00", s: "Orange Scene", n: "Little Simz" }, { t: "18:30", s: "Lagune", n: "Ecca Vandal" },
-            { t: "18:30", s: "Platform", n: "The New Eves" }, { t: "19:00", s: "Arena", n: "Ethel Cain" },
-            { t: "19:00", s: "EOS", n: "Wicky" }, { t: "19:00", s: "Platform", n: "Shovel Dance Collective" },
-            { t: "19:30", s: "Fauna", n: "Truck Violence" }, { t: "20:15", s: "Lagune", n: "Naïka" },
-            { t: "20:30", s: "Platform", n: "Cortisa Star" }, { t: "21:00", s: "Arena", n: "Ken Carson" },
-            { t: "21:00", s: "EOS", n: "KWN" }, { t: "21:00", s: "Fauna", n: "Khana Bierbood" },
-            { t: "21:00", s: "Platform", n: "1Guh Watch" }, { t: "22:00", s: "Orange Scene", n: "Gorillaz" },
-            { t: "22:15", s: "Lagune", n: "Uncle Acid & The Deadbeats" }, { t: "22:15", s: "Platform", n: "Krøyer" },
-            { t: "23:00", s: "Fauna", n: "Nick León" }, { t: "23:30", s: "EOS", n: "Lykke Li" },
-            { t: "23:45", s: "Platform", n: "Elle Fierce" }, { t: "00:00", s: "Arena", n: "Kneecap" },
-            { t: "00:00", s: "Platform", n: "The Zawose Queens" }, { t: "00:15", s: "Lagune", n: "Cobrah" },
-            { t: "01:00", s: "Orange Scene", n: "Tobias Rahim" }, { t: "01:00", s: "Platform", n: "Vgtbl.pl" },
-            { t: "01:45", s: "Platform", n: "Djrum" }, { t: "02:00", s: "Arena", n: "Brutalismus 3000" },
-            { t: "02:15", s: "Lagune", n: "Honningbarna" }
+            { t: "12:00", s: "Lagune", n: "Uld", u: "uld" }, 
+            { t: "12:00", s: "Platform", n: "Vilde Tuv", u: "vilde-tuv" },
+            { t: "13:00", s: "EOS", n: "Adrian Quesada", u: "adrian-quesada" }, 
+            { t: "13:00", s: "Gloria", n: "Dean Johnson", u: "dean-johnson" },
+            { t: "13:00", s: "Platform", n: "SOLI CITY x VERTIGO", u: "soli-city-x-vertigo" }, 
+            { t: "13:30", s: "Platform", n: "Noah Umur Kanber", u: "noah-umur-kanber" },
+            { t: "14:00", s: "Lagune", n: "TARRAK", u: "tarraq" }, 
+            { t: "14:30", s: "Arena", n: "Guldimund", u: "guldimund" },
+            { t: "15:00", s: "EOS", n: "Jalen Ngonda", u: "jalen-ngonda" }, 
+            { t: "15:00", s: "Fauna", n: "ŠIROM", u: "sirom" },
+            { t: "15:00", s: "Platform", n: "Joana Öhlschläger", u: "joana-ohlschlaeger" }, 
+            { t: "16:00", s: "Orange Scene", n: "Malk De Koijn", u: "malk-de-koijn" },
+            { t: "16:30", s: "Lagune", n: "BB Trickz", u: "bb-trickz" }, 
+            { t: "16:30", s: "Platform", n: "Abdullah Miniawy Trio", u: "abdullah-miniawy-trio" },
+            { t: "17:00", s: "Arena", n: "Royel Otis", u: "royel-otis" }, 
+            { t: "17:00", s: "EOS", n: "Napalm Death", u: "napalm-death" },
+            { t: "17:00", s: "Fauna", n: "Yerai Cortés", u: "yerai-cortes" }, 
+            { t: "17:15", s: "Platform", n: "Dorotea Saykaly & Emil Dam Seidel", u: "dorotea-saykaly-emil-dam-seidel" },
+            { t: "18:00", s: "Orange Scene", n: "Little Simz", u: "little-simz" }, 
+            { t: "18:30", s: "Lagune", n: "Ecca Vandal", u: "ecca-vandal" },
+            { t: "18:30", s: "Platform", n: "The New Eves", u: "the-new-eves" }, 
+            { t: "19:00", s: "Arena", n: "Ethel Cain", u: "ethel-cain" },
+            { t: "19:00", s: "EOS", n: "Wicky", u: "wicky" }, 
+            { t: "19:00", s: "Platform", n: "Shovel Dance Collective", u: "shovel-dance-collective" },
+            { t: "19:30", s: "Fauna", n: "Truck Violence", u: "truck-violence" }, 
+            { t: "20:15", s: "Lagune", n: "Naïka", u: "naika" },
+            { t: "20:30", s: "Platform", n: "Cortisa Star", u: "cortisa-star" }, 
+            { t: "21:00", s: "Arena", n: "Ken Carson", u: "ken-carson" },
+            { t: "21:00", s: "EOS", n: "KWN", u: "kwn" }, 
+            { t: "21:00", s: "Fauna", n: "Khana Bierbood", u: "khana-bierbood" },
+            { t: "21:00", s: "Platform", n: "1Guh Watch", u: "1guh-watch" }, 
+            { t: "22:00", s: "Orange Scene", n: "Gorillaz", u: "gorillaz" },
+            { t: "22:15", s: "Lagune", n: "Uncle Acid & The Deadbeats", u: "uncle-acid-the-deadbeats" }, 
+            { t: "22:15", s: "Platform", n: "Krøyer", u: "kroyer" },
+            { t: "23:00", s: "Fauna", n: "Nick León", u: "nick-leon" }, 
+            { t: "23:30", s: "EOS", n: "Lykke Li", u: "ykke-li" },
+            { t: "23:45", s: "Platform", n: "Elle Fierce", u: "elle-fierce" }, 
+            { t: "00:00", s: "Arena", n: "Kneecap", u: "kneecap" },
+            { t: "00:00", s: "Platform", n: "The Zawose Queens", u: "the-zawose-queens" }, 
+            { t: "00:15", s: "Lagune", n: "Cobrah", u: "cobrah" },
+            { t: "01:00", s: "Orange Scene", n: "Tobias Rahim", u: "tobias-rahim" }, 
+            { t: "01:00", s: "Platform", n: "Vgtbl.pl", u: "vgtbl-pl" },
+            { t: "01:45", s: "Platform", n: "Djrum", u: "djrum" }, 
+            { t: "02:00", s: "Arena", n: "Brutalismus 3000", u: "brutalismus-3000" },
+            { t: "02:15", s: "Lagune", n: "Honningbarna", u: "honningbarna" }
         ],
         "Friday 3 Jul": [
-            { t: "11:45", s: "Platform", n: "Spellchestra" }, { t: "12:00", s: "Lagune", n: "Hemlocke Springs" },
-            { t: "12:00", s: "EOS", n: "AySay" }, { t: "12:30", s: "Gloria", n: "Vanessa Amara" },
-            { t: "13:00", s: "Arena", n: "Mille" }, { t: "13:00", s: "Fauna", n: "Cat Clyde" },
-            { t: "13:30", s: "Platform", n: "Shovel Dance Collective" }, { t: "14:00", s: "Lagune", n: "Chezile" },
-            { t: "14:30", s: "Gloria", n: "Gwenifer Raymond" }, { t: "15:00", s: "EOS", n: "The Savage Rose" },
-            { t: "15:00", s: "Fauna", n: "Folk Bitch Trio" }, { t: "16:00", s: "Orange Scene", n: "Tessa" },
-            { t: "16:00", s: "Arena", n: "YOUNG MIKO" }, { t: "16:00", s: "Lagune", n: "Getdown Services" },
-            { t: "16:30", s: "Gloria", n: "Milkweed" }, { t: "17:00", s: "Fauna", n: "Maruja" },
-            { t: "17:15", s: "Platform", n: "Joana Öhlschläger" }, { t: "17:30", s: "Arena", n: "Sierra Ferrell" },
-            { t: "18:00", s: "Lagune", n: "Smerz" }, { t: "18:00", s: "EOS", n: "Rizwan-Muazzam Qawwali" },
-            { t: "18:30", s: "Gloria", n: "Luisa Almaguer" }, { t: "19:00", s: "Orange Scene", n: "Addison Rae" },
-            { t: "19:00", s: "EOS", n: "Saad Tiouly" }, { t: "20:00", s: "Lagune", n: "Jim Legxacy" },
-            { t: "20:15", s: "Platform", n: "Thicket" }, { t: "20:30", s: "Arena", n: "David Byrne" },
-            { t: "20:30", s: "EOS", n: "DBN Gogo" }, { t: "21:00", s: "Fauna", n: "Lamisi" },
-            { t: "21:30", s: "Gloria", n: "No Joy" }, { t: "22:00", s: "Orange Scene", n: "Jennie" },
-            { t: "22:00", s: "Lagune", n: "Los Thuthanaka" }, { t: "22:30", s: "Gloria", n: "Mark William Lewis" },
-            { t: "23:00", s: "EOS", n: "Oklou" }, { t: "23:00", s: "Fauna", n: "Kin'Gongolo Kiniata" },
-            { t: "23:30", s: "Platform", n: "Elle Fierce" }, { t: "00:00", s: "Lagune", n: "Blawan" },
-            { t: "00:15", s: "Arena", n: "Yung Lean & Bladee" }, { t: "00:30", s: "Gloria", n: "POISON RUÏN" },
-            { t: "01:00", s: "Orange Scene", n: "Aphaca" }, { t: "01:00", s: "Fauna", n: "Iglooghost" },
-            { t: "02:00", s: "Gloria", n: "LECHUGA ZAFIRO & VERRACO" }, { t: "02:15", s: "Lagune", n: "Tonser" },
-            { t: "02:30", s: "Arena", n: "Sammy Virji" }
+            { t: "11:45", s: "Platform", n: "Spellchestra", u: "spellchestra" }, 
+            { t: "12:00", s: "Lagune", n: "Hemlocke Springs", u: "hemlocke-springs" },
+            { t: "12:00", s: "EOS", n: "AySay", u: "aysay" }, 
+            { t: "12:30", s: "Gloria", n: "Vanessa Amara", u: "vanessa-amara" },
+            { t: "13:00", s: "Arena", n: "Mille", u: "mille" }, 
+            { t: "13:00", s: "Fauna", n: "Cat Clyde", u: "cat-clyde" },
+            { t: "13:30", s: "Platform", n: "Shovel Dance Collective", u: "shovel-dance-collective" }, 
+            { t: "14:00", s: "Lagune", n: "Chezile", u: "chezile" },
+            { t: "14:30", s: "Gloria", n: "Gwenifer Raymond", u: "gwenifer-raymond" }, 
+            { t: "15:00", s: "EOS", n: "The Savage Rose", u: "the-savage-rose" },
+            { t: "15:00", s: "Fauna", n: "Folk Bitch Trio", u: "folk-bitch-trio" }, 
+            { t: "16:00", s: "Orange Scene", n: "Tessa", u: "tessa" },
+            { t: "16:00", s: "Arena", n: "YOUNG MIKO", u: "young-miko" }, 
+            { t: "16:00", s: "Lagune", n: "Getdown Services", u: "getdown-services" },
+            { t: "16:30", s: "Gloria", n: "Milkweed", u: "milkweed" }, 
+            { t: "17:00", s: "Fauna", n: "Maruja", u: "maruja" },
+            { t: "17:15", s: "Platform", n: "Joana Öhlschläger", u: "joana-ohlschlaeger" }, 
+            { t: "17:30", s: "Arena", n: "Sierra Ferrell", u: "sierra-ferrell" },
+            { t: "18:00", s: "Lagune", n: "Smerz", u: "smerz" }, 
+            { t: "18:00", s: "EOS", n: "Rizwan-Muazzam Qawwali", u: "rizwan-muazzam-qawwali" },
+            { t: "18:30", s: "Gloria", n: "Luisa Almaguer", u: "luisa-almaguer" }, 
+            { t: "19:00", s: "Orange Scene", n: "Addison Rae", u: "addison-rae" },
+            { t: "19:00", s: "EOS", n: "Saad Tiouly", u: "saad-tiouly" }, 
+            { t: "20:00", s: "Lagune", n: "Jim Legxacy", u: "jim-legxacy" },
+            { t: "20:15", s: "Platform", n: "Thicket", u: "thicket" }, 
+            { t: "20:30", s: "Arena", n: "David Byrne", u: "david-byrne" },
+            { t: "20:30", s: "EOS", n: "DBN Gogo", u: "dbn-gogo" }, 
+            { t: "21:00", s: "Fauna", n: "Lamisi", u: "lamisi" },
+            { t: "21:30", s: "Gloria", n: "No Joy", u: "no-joy" }, 
+            { t: "22:00", s: "Orange Scene", n: "Jennie", u: "jennie" },
+            { t: "22:00", s: "Lagune", n: "Los Thuthanaka", u: "los-thuthanaka" }, 
+            { t: "22:30", s: "Gloria", n: "Mark William Lewis", u: "mark-william-lewis" },
+            { t: "23:00", s: "EOS", n: "Oklou", u: "oklou" }, 
+            { t: "23:00", s: "Fauna", n: "Kin'Gongolo Kiniata", u: "kingongolo-kiniata" },
+            { t: "23:30", s: "Platform", n: "Elle Fierce", u: "elle-fierce" }, 
+            { t: "00:00", s: "Lagune", n: "Blawan", u: "blawan" },
+            { t: "00:15", s: "Arena", n: "Yung Lean & Bladee", u: "yung-lean-bladee" }, 
+            { t: "00:30", s: "Gloria", n: "POISON RUÏN", u: "poison-ruin" },
+            { t: "01:00", s: "Orange Scene", n: "Aphaca", u: "aphaca" }, 
+            { t: "01:00", s: "Fauna", n: "Iglooghost", u: "iglooghost" },
+            { t: "02:00", s: "Gloria", n: "LECHUGA ZAFIRO & VERRACO", u: "lechuga-zafiro-verraco" }, 
+            { t: "02:15", s: "Lagune", n: "Tonser", u: "tonser" },
+            { t: "02:30", s: "Arena", n: "Sammy Virji", u: "sammy-virji" }
         ],
         "Saturday 4 Jul": [
-            { t: "11:45", s: "Platform", n: "Det Åbne Ensemble" }, { t: "12:00", s: "Lagune", n: "Snuggle" },
-            { t: "12:30", s: "Gloria", n: "Madra Salach" }, { t: "13:15", s: "Platform", n: "Andreas Haglund" },
-            { t: "14:00", s: "EOS", n: "Lojay" }, { t: "14:30", s: "Arena", n: "MAS" },
-            { t: "14:30", s: "Lagune", n: "EEE GEE" }, { t: "14:30", s: "Fauna", n: "Sara Parkman" },
-            { t: "14:30", s: "Platform", n: "HEINALI & ANDRIANA-YAROSLAVA SAIENKO" }, { t: "14:45", s: "Platform", n: "Spellchestra" },
-            { t: "15:30", s: "Orange Scene", n: "TV-2" }, { t: "16:30", s: "Fauna", n: "Jorjiana" },
-            { t: "16:30", s: "Platform", n: "CUIRASS" }, { t: "17:00", s: "Lagune", n: "Nourished By Time" },
-            { t: "17:00", s: "Fauna", n: "Los Mirlos" }, { t: "17:00", s: "Platform", n: "Ela Lung" },
-            { t: "17:15", s: "Arena", n: "Audrey Nuna" }, { t: "18:15", s: "Fauna", n: "The Callous Daoboys" },
-            { t: "18:30", s: "Orange Scene", n: "Clipse" }, { t: "18:30", s: "Platform", n: "Bruno Berle" },
-            { t: "19:30", s: "Arena", n: "Liniker" }, { t: "19:30", s: "Lagune", n: "Igorrr" },
-            { t: "19:45", s: "EOS", n: "Frost Children" }, { t: "19:45", s: "Platform", n: "Susobrino" },
-            { t: "20:30", s: "Platform", n: "1111" }, { t: "20:45", s: "Orange Scene", n: "Lily Allen" },
-            { t: "21:00", s: "Fauna", n: "Albertslund Terror Korps" }, { t: "21:45", s: "Arena", n: "Bad Gyal" },
-            { t: "22:00", s: "Lagune", n: "Jane Remover" }, { t: "22:00", s: "EOS", n: "Panda Bear & Sonic Boom" },
-            { t: "22:30", s: "Platform", n: "Ata Kak" }, { t: "23:15", s: "Orange Scene", n: "Zara Larsson" },
-            { t: "23:15", s: "Platform", n: "Sorry" }, { t: "00:00", s: "Lagune", n: "Rochelle Jordan" },
-            { t: "00:30", s: "Platform", n: "Lord Snow" }, { t: "00:45", s: "Arena", n: "Zar Paulo" },
-            { t: "01:15", s: "Fauna", n: "CRRDR" }, { t: "02:00", s: "EOS", n: "Kettama" }
-        ]
-    };
-
-    // --- STATE ---
-    const days = Object.keys(scheduleData);
-    let currentDayIndex = 0;
-    let showFavoritesOnly = false;
-    let favorites = JSON.parse(localStorage.getItem('rks_favorites')) || [];
-
-    // --- FUNCTIONS ---
-    function init() {
-        renderDayNav();
-        renderSchedule(days[currentDayIndex]);
-    }
-
-    function setFilter(isFav) {
-        showFavoritesOnly = isFav;
-        document.getElementById('segAll').classList.toggle('active', !isFav);
-        document.getElementById('segFav').classList.toggle('active', isFav);
-        renderSchedule(days[currentDayIndex]);
-    }
-
-    function toggleFavorite(artistName) {
-        const index = favorites.indexOf(artistName);
-        if (index > -1) {
-            favorites.splice(index, 1);
-        } else {
-            favorites.push(artistName);
-        }
-        localStorage.setItem('rks_favorites', JSON.stringify(favorites));
-        renderSchedule(days[currentDayIndex]);
-    }
-
-    // Generates a URL slug from the artist name
-    // Example: "The Cure" -> "the-cure"
-    // Example: "YOUNG MIKO" -> "young-miko"
-    function generateSlug(name) {
-        return name
-            .toLowerCase()
-            .replace(/[^a-z0-9\s-]/g, '') // Remove special chars except spaces/hyphens
-            .replace(/\s+/g, '-')         // Replace spaces with hyphens
-            .replace(/-+/g, '-')          // Replace multiple hyphens with one
-            .trim();
-    }
-
-    function openArtistPage(artistName) {
-        const slug = generateSlug(artistName);
-        const url = `https://www.roskilde-festival.dk/en/line-up/music/${slug}`;
-        window.open(url, '_blank');
-    }
-
-    function renderDayNav() {
-        const nav = document.getElementById('dayNav');
-        nav.innerHTML = '';
-        days.forEach((day, index) => {
-            const btn = document.createElement('button');
-            btn.className = `day-btn ${index === currentDayIndex ? 'active' : ''}`;
-            btn.textContent = day.split(' ')[0];
-            btn.onclick = () => {
-                currentDayIndex = index;
-                renderDayNav();
-                renderSchedule(day);
-            };
-            nav.appendChild(btn);
-        });
-    }
-
-    function renderSchedule(day) {
-        const container = document.getElementById('scheduleList');
-        container.innerHTML = '';
-        const events = scheduleData[day];
-        
-        if (!events || events.length === 0) return;
-
-        let currentTime = null;
-        let timeBlock = null;
-        let hasVisibleEvents = false;
-
-        events.forEach(event => {
-            if (showFavoritesOnly && !favorites.includes(event.n)) return;
-            hasVisibleEvents = true;
-
-            if (event.t !== currentTime) {
-                currentTime = event.t;
-                timeBlock = document.createElement('div');
-                timeBlock.className = 'time-block';
-                const header = document.createElement('div');
-                header.className = 'time-header';
-                header.textContent = currentTime;
-                timeBlock.appendChild(header);
-                container.appendChild(timeBlock);
-            }
-
-            const isFav = favorites.includes(event.n);
-            const card = document.createElement('div');
-            const stageClass = event.s.replace(" Scene", ""); 
-            card.className = `artist-card stage-${stageClass} ${isFav ? 'is-fav' : ''}`;
-            
-            // Escape single quotes for the onclick handler
-            const safeName = event.n.replace(/'/g, "\\'");
-            
-            card.innerHTML = `
-                <div class="artist-info">
-                    <a class="artist-name" onclick="openArtistPage('${safeName}')">${event.n}</a>
-                    <div class="stage-name">${event.s}</div>
-                </div>
-                <button class="star-btn" onclick="toggleFavorite('${safeName}')">
-                    ${isFav ? '★' : '☆'}
-                </button>
-            `;
-            timeBlock.appendChild(card);
-        });
-
-        if (showFavoritesOnly && !hasVisibleEvents) {
-            container.innerHTML = '<div class="empty-msg">No favorites for this day yet. Tap the star ★ to add one!</div>';
-        }
-    }
-
-    // Modal Functions
-    function openModal() {
-        document.getElementById('infoModal').classList.add('open');
-    }
-    function closeModal() {
-        document.getElementById('infoModal').classList.remove('open');
-    }
-    
-    document.getElementById('infoModal').addEventListener('click', (e) => {
-        if (e.target.id === 'infoModal') closeModal();
-    });
-
-    init();
-</script>
-</body>
-</html>
+            { t: "11:45", s: "Platform", n: "Det Åbne Ensemble", u: "det-aabne-ensemble" }, 
+            { t: "12:00", s: "Lagune", n: "Snuggle", u: "snuggle" },
+            { t: "12:30", s: "Gloria", n: "Madra Salach", u: "madra-salach" }, 
+            { t: "13:15", s: "Platform", n: "Andreas Haglund", u: "andreas-haglund" },
+            { t: "14:00", s: "EOS", n: "Lojay", u: "lojay" }, 
+            { t: "14:30", s: "Arena", n: "MAS", u: "mas" },
+            { t: "14:30", s: "Lagune", n: "EEE GEE", u: "eee-gee" }, 
+            { t: "14:30", s: "Fauna", n: "Sara Parkman", u: "sara-parkman" },
+            { t: "14:30", s: "Platform", n: "HEINALI & ANDRIANA-YAROSLAVA SAIENKO", u: "heinali-andriana-yaroslava-saieneko" }, 
+            { t: "14:45", s: "Platform", n: "Spellchestra", u: "spellchestra" },
+            { t: "15:30", s: "Orange Scene", n: "TV-2", u: "tv-2" }, 
+            { t: "16:30", s: "Fauna", n: "Jorjiana", u: "jorjiana" },
+            { t: "16:30", s: "Platform", n: "CUIRASS", u: "cuirass" }, 
+            { t: "17:00", s: "Lagune", n: "Nourished By Time", u: "nourished-by-time" },
+            { t: "17:00", s: "Fauna", n: "Los Mirlos", u: "los-mirlos" }, 
+            { t: "17:00", s: "Platform", n: "Ela Lung", u: "ela-lung" },
+            { t: "17:15", s: "Arena", n: "Audrey Nuna", u: "audrey-nuna" }, 
+            { t: "18:15", s: "Fauna", n: "The Callous Daoboys", u: "the-callous-daoboys" },
+            { t: "18:30", s: "Orange Scene", n: "Clipse", u: "clipse" }, 
+            { t: "18:30", s: "Platform", n: "Bruno Berle", u: "bruno-berle" },
+            { t: "19:30", s: "Arena", n: "Liniker", u: "liniker" }, 
+            { t: "19:30", s: "Lagune", n: "Igorrr", u: "igorrr" },
+            { t: "19:45", s: "EOS", n: "Frost Children", u: "frost-children" }, 
+            { t: "19:45", s: "Platform", n: "Susobrino", u: "susobrino" },
+            { t: "20:30", s: "Platform", n: "1111", u: "1111" }, 
+            { t: "20:45", s: "Orange Scene", n: "Lily Allen", u: "lily-allen" },
+            { t: "21:00", s: "Fauna", n: "Albertslund Terror Korps", u: "albertslund-terror-korps" }, 
+            { t: "21:45", s: "Arena", n: "Bad Gyal", u: "bad-gyal" },
+            { t: "22:00", s: "Lagune", n: "Jane Remover", u: "jane-remover" }, 
+            { t: "22:00", s: "EOS", n: "Panda Bear & Sonic Boom", u: "panda-bear-sonic-boom" },
+            { t: "22:30", s: "Platform", n: "Ata Kak", u: "ata-kak" }, 
+            { t: "23:15", s: "Orange Scene", n: "Zara Larsson", u: "z
