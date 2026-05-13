@@ -24,11 +24,11 @@
 
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 80px; }
         
-        /* HEADER - Reduced Height */
+        /* HEADER */
         header { 
             background: var(--primary); 
             color: white; 
-            padding: 0 15px; /* Vertical padding removed, height controlled by explicit height */
+            padding: 0 15px; 
             display: flex; 
             align-items: center; 
             justify-content: space-between;
@@ -36,11 +36,11 @@
             top: 0; 
             z-index: 100; 
             box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
-            height: 46px; /* Explicit height */
+            height: 46px; 
         }
         h1 { margin: 0; font-size: 1rem; font-weight: 600; flex-shrink: 0; }
 
-        /* SEGMENTED CONTROL - Adjusted for smaller header */
+        /* SEGMENTED CONTROL */
         .segmented-control {
             background: rgba(255,255,255,0.2);
             border-radius: 16px;
@@ -50,7 +50,7 @@
             flex-grow: 1;
             margin: 0 12px;
             max-width: 180px;
-            height: 28px; /* Fixed height for control */
+            height: 28px; 
         }
         .segment-opt {
             flex: 1;
@@ -84,15 +84,15 @@
         }
         .info-btn:hover { background: rgba(255,255,255,0.2); }
 
-        /* DAY TABS - NO GAP */
+        /* DAY TABS */
         .day-nav { 
             display: flex; 
             overflow-x: auto; 
             background: white; 
-            padding: 8px 0; /* Reduced padding */
+            padding: 8px 0; 
             border-bottom: 1px solid #ddd; 
             position: sticky; 
-            top: 46px; /* Matches header height exactly */
+            top: 46px; 
             z-index: 90; 
             scrollbar-width: none; 
             margin: 0; 
@@ -124,18 +124,32 @@
         }
         .artist-card:active { transform: scale(0.98); }
         
-        /* FIXED: Favorites keep stage color on border, gold bg */
         .artist-card.is-fav { 
-            background: #fffdf5; /* Light gold tint */
+            background: #fffdf5; 
         }
         
         .artist-info { flex-grow: 1; margin-right: 10px; }
-        .artist-name { font-weight: 600; font-size: 1rem; margin-bottom: 2px; line-height: 1.2; }
+        
+        /* CLICKABLE ARTIST NAME STYLE */
+        .artist-name { 
+            font-weight: 600; 
+            font-size: 1rem; 
+            margin-bottom: 2px; 
+            line-height: 1.2; 
+            color: #333; 
+            text-decoration: none; 
+            display: block; 
+            cursor: pointer;
+        }
+        .artist-name:hover { text-decoration: underline; }
+        .artist-name:active { color: var(--primary); }
+
         .stage-name { font-size: 0.75rem; color: #666; text-transform: uppercase; }
         
         .star-btn {
             background: none; border: none; font-size: 1.5rem; color: #ccc; cursor: pointer; padding: 0 5px;
             display: flex; align-items: center; justify-content: center;
+            z-index: 10; /* Ensure star is clickable over the link */
         }
         .artist-card.is-fav .star-btn { color: var(--gold); }
 
@@ -188,7 +202,7 @@
     <button class="info-btn" onclick="openModal()">Info</button>
 </header>
 
-<!-- DAY TABS (No Gap) -->
+<!-- DAY TABS -->
 <div class="day-nav" id="dayNav"></div>
 
 <!-- SCHEDULE -->
@@ -336,6 +350,12 @@
         renderSchedule(days[currentDayIndex]);
     }
 
+    function searchArtist(artistName) {
+        // Opens a new tab with a Google search for the artist
+        const query = encodeURIComponent(artistName + " Roskilde 2026");
+        window.open(`https://www.google.com/search?q=${query}`, '_blank');
+    }
+
     function renderDayNav() {
         const nav = document.getElementById('dayNav');
         nav.innerHTML = '';
@@ -381,15 +401,17 @@
             const isFav = favorites.includes(event.n);
             const card = document.createElement('div');
             const stageClass = event.s.replace(" Scene", ""); 
-            // Apply both stage color class and fav class
             card.className = `artist-card stage-${stageClass} ${isFav ? 'is-fav' : ''}`;
+            
+            // Escape single quotes for the onclick handler
+            const safeName = event.n.replace(/'/g, "\\'");
             
             card.innerHTML = `
                 <div class="artist-info">
-                    <div class="artist-name">${event.n}</div>
+                    <a class="artist-name" onclick="searchArtist('${safeName}')">${event.n}</a>
                     <div class="stage-name">${event.s}</div>
                 </div>
-                <button class="star-btn" onclick="toggleFavorite('${event.n.replace(/'/g, "\\'")}')">
+                <button class="star-btn" onclick="toggleFavorite('${safeName}')">
                     ${isFav ? '★' : '☆'}
                 </button>
             `;
@@ -409,7 +431,6 @@
         document.getElementById('infoModal').classList.remove('open');
     }
     
-    // Close modal when clicking outside
     document.getElementById('infoModal').addEventListener('click', (e) => {
         if (e.target.id === 'infoModal') closeModal();
     });
