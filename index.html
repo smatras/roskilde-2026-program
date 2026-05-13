@@ -350,10 +350,22 @@
         renderSchedule(days[currentDayIndex]);
     }
 
-    function searchArtist(artistName) {
-        // Opens a new tab with a Google search for the artist
-        const query = encodeURIComponent(artistName + " Roskilde 2026");
-        window.open(`https://www.google.com/search?q=${query}`, '_blank');
+    // Generates a URL slug from the artist name
+    // Example: "The Cure" -> "the-cure"
+    // Example: "YOUNG MIKO" -> "young-miko"
+    function generateSlug(name) {
+        return name
+            .toLowerCase()
+            .replace(/[^a-z0-9\s-]/g, '') // Remove special chars except spaces/hyphens
+            .replace(/\s+/g, '-')         // Replace spaces with hyphens
+            .replace(/-+/g, '-')          // Replace multiple hyphens with one
+            .trim();
+    }
+
+    function openArtistPage(artistName) {
+        const slug = generateSlug(artistName);
+        const url = `https://www.roskilde-festival.dk/en/line-up/music/${slug}`;
+        window.open(url, '_blank');
     }
 
     function renderDayNav() {
@@ -408,7 +420,7 @@
             
             card.innerHTML = `
                 <div class="artist-info">
-                    <a class="artist-name" onclick="searchArtist('${safeName}')">${event.n}</a>
+                    <a class="artist-name" onclick="openArtistPage('${safeName}')">${event.n}</a>
                     <div class="stage-name">${event.s}</div>
                 </div>
                 <button class="star-btn" onclick="toggleFavorite('${safeName}')">
