@@ -1,72 +1,205 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roskilde 2026</title>
+    <title>Roskilde 2026 Guide</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; background: #f4f4f4; }
-        h1 { color: #ff6600; }
-        .day { margin-bottom: 30px; }
-        .day-title { font-size: 1.5rem; font-weight: bold; border-bottom: 2px solid #ff6600; padding-bottom: 5px; margin-bottom: 10px; }
-        .time { font-weight: bold; color: #555; margin-top: 10px; }
-        .artist { background: white; padding: 10px; margin: 5px 0; border-radius: 5px; border-left: 4px solid #ff6600; }
-        .stage { font-size: 0.8rem; color: #888; text-transform: uppercase; }
+        :root { --primary: #ff6600; --bg: #f4f4f4; --card-bg: #fff; --text: #333; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 80px; }
+        
+        /* Header */
+        header { background: var(--primary); color: white; padding: 1rem; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h1 { margin: 0; font-size: 1.2rem; font-weight: 600; }
+
+        /* Day Tabs */
+        .day-nav { display: flex; overflow-x: auto; background: white; padding: 10px 0; border-bottom: 1px solid #ddd; position: sticky; top: 60px; z-index: 90; scrollbar-width: none; }
+        .day-nav::-webkit-scrollbar { display: none; }
+        .day-btn { flex: 0 0 auto; padding: 8px 16px; margin: 0 5px; border: 1px solid #ddd; border-radius: 20px; background: white; color: #555; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; }
+        .day-btn.active { background: var(--primary); color: white; border-color: var(--primary); font-weight: bold; }
+
+        /* Schedule List */
+        .schedule-container { padding: 10px; max-width: 600px; margin: 0 auto; }
+        .time-block { margin-bottom: 20px; }
+        .time-header { font-weight: bold; color: #666; font-size: 0.85rem; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        .artist-card { background: var(--card-bg); border-radius: 8px; padding: 12px; margin-bottom: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; border-left: 4px solid #ccc; }
+        .artist-info { flex-grow: 1; }
+        .artist-name { font-weight: 600; font-size: 1rem; margin-bottom: 2px; line-height: 1.2; }
+        .stage-name { font-size: 0.75rem; color: #666; text-transform: uppercase; }
+
+        /* Stage Colors */
+        .stage-Orange { border-left-color: #ff6600; }
+        .stage-Arena { border-left-color: #007bff; }
+        .stage-Lagune { border-left-color: #28a745; }
+        .stage-EOS { border-left-color: #dc3545; }
+        .stage-Fauna { border-left-color: #6f42c1; }
+        .stage-Gloria { border-left-color: #fd7e14; }
+        .stage-Platform { border-left-color: #6c757d; }
     </style>
 </head>
 <body>
-    <h1>Roskilde 2026 Schedule</h1>
-    <div id="app"></div>
 
-    <script>
-        // Simplified Data
-        const data = {
-            "Wednesday 1 Jul": [
-                {t:"17:00", s:"EOS", n:"BIA"}, {t:"17:00", s:"Platform", n:"Dorotea Saykaly"},
-                {t:"17:30", s:"Orange", n:"Pil"}, {t:"17:30", s:"Arena", n:"Joshua Idehen"},
-                {t:"22:00", s:"Orange", n:"The Cure"}
-            ],
-            "Thursday 2 Jul": [
-                {t:"18:00", s:"Orange", n:"Little Simz"}, {t:"22:00", s:"Orange", n:"Gorillaz"}
-            ],
-            "Friday 3 Jul": [
-                {t:"19:00", s:"Orange", n:"Addison Rae"}, {t:"20:30", s:"Arena", n:"David Byrne"},
-                {t:"22:00", s:"Orange", n:"Jennie"}
-            ],
-            "Saturday 4 Jul": [
-                {t:"18:30", s:"Orange", n:"Clipse"}, {t:"20:45", s:"Orange", n:"Lily Allen"},
-                {t:"23:15", s:"Orange", n:"Zara Larsson"}
-            ]
-        };
+<header><h1>Roskilde 2026</h1></header>
+<div class="day-nav" id="dayNav"></div>
+<div class="schedule-container" id="scheduleList"></div>
 
-        const container = document.getElementById('app');
+<script>
+    // FULL DATA FROM YOUR FILES
+    const scheduleData = {
+        "Wednesday 1 Jul": [
+            { t: "17:00", s: "EOS", n: "BIA" }, { t: "17:00", s: "Platform", n: "Dorotea Saykaly & Emil Dam Seidel" },
+            { t: "17:30", s: "Orange Scene", n: "Pil" }, { t: "17:30", s: "Arena", n: "Joshua Idehen" },
+            { t: "17:45", s: "Gloria", n: "Tuvaband" }, { t: "18:30", s: "Arena", n: "Pa Salieu" },
+            { t: "18:30", s: "Lagune", n: "Annie & the Caldwells" }, { t: "18:30", s: "Platform", n: "Andreas Haglund" },
+            { t: "19:30", s: "Orange Scene", n: "Wolf Alice" }, { t: "19:30", s: "Lagune", n: "Smertegrænsens Toldere" },
+            { t: "19:30", s: "Fauna", n: "Hypnosis Therapy" }, { t: "20:30", s: "Lagune", n: "ANGÅENDE MIG" },
+            { t: "20:30", s: "EOS", n: "Sama' Abdulhadi" }, { t: "20:45", s: "Arena", n: "Jade" },
+            { t: "20:45", s: "Platform", n: "1Guh Watch" }, { t: "21:00", s: "Fauna", n: "The Sophs" },
+            { t: "21:30", s: "Platform", n: "Indus" }, { t: "22:00", s: "Orange Scene", n: "The Cure" },
+            { t: "22:30", s: "Lagune", n: "Marwan Moussa" }, { t: "23:30", s: "EOS", n: "SMAG PÅ DIG SELV" },
+            { t: "23:30", s: "Platform", n: "Dying Wish" }, { t: "00:00", s: "Arena", n: "EsDeeKid" },
+            { t: "00:00", s: "Fauna", n: "Sherelle" }, { t: "00:30", s: "Lagune", n: "Primitive Man" },
+            { t: "00:45", s: "Platform", n: "PILI PILI GIRLS" }, { t: "01:30", s: "Fauna", n: "¥ØU$UK€ ¥UK1MAT$U" }
+        ],
+        "Thursday 2 Jul": [
+            { t: "12:00", s: "Lagune", n: "Uld" }, { t: "12:00", s: "Platform", n: "Vilde Tuv" },
+            { t: "13:00", s: "EOS", n: "Adrian Quesada" }, { t: "13:00", s: "Gloria", n: "Dean Johnson" },
+            { t: "13:00", s: "Platform", n: "SOLI CITY x VERTIGO" }, { t: "13:30", s: "Platform", n: "Noah Umur Kanber" },
+            { t: "14:00", s: "Lagune", n: "TARRAK" }, { t: "14:30", s: "Arena", n: "Guldimund" },
+            { t: "15:00", s: "EOS", n: "Jalen Ngonda" }, { t: "15:00", s: "Fauna", n: "ŠIROM" },
+            { t: "15:00", s: "Platform", n: "Joana Öhlschläger" }, { t: "16:00", s: "Orange Scene", n: "Malk De Koijn" },
+            { t: "16:30", s: "Lagune", n: "BB Trickz" }, { t: "16:30", s: "Platform", n: "Abdullah Miniawy Trio" },
+            { t: "17:00", s: "Arena", n: "Royel Otis" }, { t: "17:00", s: "EOS", n: "Napalm Death" },
+            { t: "17:00", s: "Fauna", n: "Yerai Cortés" }, { t: "17:15", s: "Platform", n: "Dorotea Saykaly & Emil Dam Seidel" },
+            { t: "18:00", s: "Orange Scene", n: "Little Simz" }, { t: "18:30", s: "Lagune", n: "Ecca Vandal" },
+            { t: "18:30", s: "Platform", n: "The New Eves" }, { t: "19:00", s: "Arena", n: "Ethel Cain" },
+            { t: "19:00", s: "EOS", n: "Wicky" }, { t: "19:00", s: "Platform", n: "Shovel Dance Collective" },
+            { t: "19:30", s: "Fauna", n: "Truck Violence" }, { t: "20:15", s: "Lagune", n: "Naïka" },
+            { t: "20:30", s: "Platform", n: "Cortisa Star" }, { t: "21:00", s: "Arena", n: "Ken Carson" },
+            { t: "21:00", s: "EOS", n: "KWN" }, { t: "21:00", s: "Fauna", n: "Khana Bierbood" },
+            { t: "21:00", s: "Platform", n: "1Guh Watch" }, { t: "22:00", s: "Orange Scene", n: "Gorillaz" },
+            { t: "22:15", s: "Lagune", n: "Uncle Acid & The Deadbeats" }, { t: "22:15", s: "Platform", n: "Krøyer" },
+            { t: "23:00", s: "Fauna", n: "Nick León" }, { t: "23:30", s: "EOS", n: "Lykke Li" },
+            { t: "23:45", s: "Platform", n: "Elle Fierce" }, { t: "00:00", s: "Arena", n: "Kneecap" },
+            { t: "00:00", s: "Platform", n: "The Zawose Queens" }, { t: "00:15", s: "Lagune", n: "Cobrah" },
+            { t: "01:00", s: "Orange Scene", n: "Tobias Rahim" }, { t: "01:00", s: "Platform", n: "Vgtbl.pl" },
+            { t: "01:45", s: "Platform", n: "Djrum" }, { t: "02:00", s: "Arena", n: "Brutalismus 3000" },
+            { t: "02:15", s: "Lagune", n: "Honningbarna" }
+        ],
+        "Friday 3 Jul": [
+            { t: "11:45", s: "Platform", n: "Spellchestra" }, { t: "12:00", s: "Lagune", n: "Hemlocke Springs" },
+            { t: "12:00", s: "EOS", n: "AySay" }, { t: "12:30", s: "Gloria", n: "Vanessa Amara" },
+            { t: "13:00", s: "Arena", n: "Mille" }, { t: "13:00", s: "Fauna", n: "Cat Clyde" },
+            { t: "13:30", s: "Platform", n: "Shovel Dance Collective" }, { t: "14:00", s: "Lagune", n: "Chezile" },
+            { t: "14:30", s: "Gloria", n: "Gwenifer Raymond" }, { t: "15:00", s: "EOS", n: "The Savage Rose" },
+            { t: "15:00", s: "Fauna", n: "Folk Bitch Trio" }, { t: "16:00", s: "Orange Scene", n: "Tessa" },
+            { t: "16:00", s: "Arena", n: "YOUNG MIKO" }, { t: "16:00", s: "Lagune", n: "Getdown Services" },
+            { t: "16:30", s: "Gloria", n: "Milkweed" }, { t: "17:00", s: "Fauna", n: "Maruja" },
+            { t: "17:15", s: "Platform", n: "Joana Öhlschläger" }, { t: "17:30", s: "Arena", n: "Sierra Ferrell" },
+            { t: "18:00", s: "Lagune", n: "Smerz" }, { t: "18:00", s: "EOS", n: "Rizwan-Muazzam Qawwali" },
+            { t: "18:30", s: "Gloria", n: "Luisa Almaguer" }, { t: "19:00", s: "Orange Scene", n: "Addison Rae" },
+            { t: "19:00", s: "EOS", n: "Saad Tiouly" }, { t: "20:00", s: "Lagune", n: "Jim Legxacy" },
+            { t: "20:15", s: "Platform", n: "Thicket" }, { t: "20:30", s: "Arena", n: "David Byrne" },
+            { t: "20:30", s: "EOS", n: "DBN Gogo" }, { t: "21:00", s: "Fauna", n: "Lamisi" },
+            { t: "21:30", s: "Gloria", n: "No Joy" }, { t: "22:00", s: "Orange Scene", n: "Jennie" },
+            { t: "22:00", s: "Lagune", n: "Los Thuthanaka" }, { t: "22:30", s: "Gloria", n: "Mark William Lewis" },
+            { t: "23:00", s: "EOS", n: "Oklou" }, { t: "23:00", s: "Fauna", n: "Kin'Gongolo Kiniata" },
+            { t: "23:30", s: "Platform", n: "Elle Fierce" }, { t: "00:00", s: "Lagune", n: "Blawan" },
+            { t: "00:15", s: "Arena", n: "Yung Lean & Bladee" }, { t: "00:30", s: "Gloria", n: "POISON RUÏN" },
+            { t: "01:00", s: "Orange Scene", n: "Aphaca" }, { t: "01:00", s: "Fauna", n: "Iglooghost" },
+            { t: "02:00", s: "Gloria", n: "LECHUGA ZAFIRO & VERRACO" }, { t: "02:15", s: "Lagune", n: "Tonser" },
+            { t: "02:30", s: "Arena", n: "Sammy Virji" }
+        ],
+        "Saturday 4 Jul": [
+            { t: "11:45", s: "Platform", n: "Det Åbne Ensemble" }, { t: "12:00", s: "Lagune", n: "Snuggle" },
+            { t: "12:30", s: "Gloria", n: "Madra Salach" }, { t: "13:15", s: "Platform", n: "Andreas Haglund" },
+            { t: "14:00", s: "EOS", n: "Lojay" }, { t: "14:30", s: "Arena", n: "MAS" },
+            { t: "14:30", s: "Lagune", n: "EEE GEE" }, { t: "14:30", s: "Fauna", n: "Sara Parkman" },
+            { t: "14:30", s: "Platform", n: "HEINALI & ANDRIANA-YAROSLAVA SAIENKO" }, { t: "14:45", s: "Platform", n: "Spellchestra" },
+            { t: "15:30", s: "Orange Scene", n: "TV-2" }, { t: "16:30", s: "Fauna", n: "Jorjiana" },
+            { t: "16:30", s: "Platform", n: "CUIRASS" }, { t: "17:00", s: "Lagune", n: "Nourished By Time" },
+            { t: "17:00", s: "Fauna", n: "Los Mirlos" }, { t: "17:00", s: "Platform", n: "Ela Lung" },
+            { t: "17:15", s: "Arena", n: "Audrey Nuna" }, { t: "18:15", s: "Fauna", n: "The Callous Daoboys" },
+            { t: "18:30", s: "Orange Scene", n: "Clipse" }, { t: "18:30", s: "Platform", n: "Bruno Berle" },
+            { t: "19:30", s: "Arena", n: "Liniker" }, { t: "19:30", s: "Lagune", n: "Igorrr" },
+            { t: "19:45", s: "EOS", n: "Frost Children" }, { t: "19:45", s: "Platform", n: "Susobrino" },
+            { t: "20:30", s: "Platform", n: "1111" }, { t: "20:45", s: "Orange Scene", n: "Lily Allen" },
+            { t: "21:00", s: "Fauna", n: "Albertslund Terror Korps" }, { t: "21:45", s: "Arena", n: "Bad Gyal" },
+            { t: "22:00", s: "Lagune", n: "Jane Remover" }, { t: "22:00", s: "EOS", n: "Panda Bear & Sonic Boom" },
+            { t: "22:30", s: "Platform", n: "Ata Kak" }, { t: "23:15", s: "Orange Scene", n: "Zara Larsson" },
+            { t: "23:15", s: "Platform", n: "Sorry" }, { t: "00:00", s: "Lagune", n: "Rochelle Jordan" },
+            { t: "00:30", s: "Platform", n: "Lord Snow" }, { t: "00:45", s: "Arena", n: "Zar Paulo" },
+            { t: "01:15", s: "Fauna", n: "CRRDR" }, { t: "02:00", s: "EOS", n: "Kettama" }
+        ]
+    };
+
+    const days = Object.keys(scheduleData);
+    let currentDayIndex = 0;
+
+    function init() {
+        renderDayNav();
+        renderSchedule(days[currentDayIndex]);
+    }
+
+    function renderDayNav() {
+        const nav = document.getElementById('dayNav');
+        nav.innerHTML = '';
+        days.forEach((day, index) => {
+            const btn = document.createElement('button');
+            btn.className = `day-btn ${index === currentDayIndex ? 'active' : ''}`;
+            btn.textContent = day.split(' ')[0]; // Short name
+            btn.onclick = () => {
+                currentDayIndex = index;
+                renderDayNav();
+                renderSchedule(day);
+            };
+            nav.appendChild(btn);
+        });
+    }
+
+    function renderSchedule(day) {
+        const container = document.getElementById('scheduleList');
+        container.innerHTML = '';
+        const events = scheduleData[day];
         
-        // Render Days
-        for (const [day, events] of Object.entries(data)) {
-            const dayDiv = document.createElement('div');
-            dayDiv.className = 'day';
-            
-            const title = document.createElement('div');
-            title.className = 'day-title';
-            title.textContent = day;
-            dayDiv.appendChild(title);
-
-            // Render Events
-            events.forEach(ev => {
-                const timeDiv = document.createElement('div');
-                timeDiv.className = 'time';
-                timeDiv.textContent = ev.t;
-                
-                const card = document.createElement('div');
-                card.className = 'artist';
-                card.innerHTML = `<strong>${ev.n}</strong><br><span class="stage">${ev.s}</span>`;
-                
-                dayDiv.appendChild(timeDiv);
-                dayDiv.appendChild(card);
-            });
-
-            container.appendChild(dayDiv);
+        if (!events || events.length === 0) {
+            container.innerHTML = '<p style="text-align:center; color:#888;">No schedule data.</p>';
+            return;
         }
-    </script>
+
+        let currentTime = null;
+        let timeBlock = null;
+
+        events.forEach(event => {
+            if (event.t !== currentTime) {
+                currentTime = event.t;
+                timeBlock = document.createElement('div');
+                timeBlock.className = 'time-block';
+                
+                const header = document.createElement('div');
+                header.className = 'time-header';
+                header.textContent = currentTime;
+                timeBlock.appendChild(header);
+                container.appendChild(timeBlock);
+            }
+
+            const card = document.createElement('div');
+            // Map stage names to CSS classes (remove "Scene" if present for class matching)
+            const stageClass = event.s.replace(" Scene", ""); 
+            card.className = `artist-card stage-${stageClass}`;
+            
+            card.innerHTML = `
+                <div class="artist-info">
+                    <div class="artist-name">${event.n}</div>
+                    <div class="stage-name">${event.s}</div>
+                </div>
+            `;
+            timeBlock.appendChild(card);
+        });
+    }
+
+    init();
+</script>
 </body>
 </html>
