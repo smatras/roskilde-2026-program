@@ -5,15 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roskilde 2026 Guide</title>
     <style>
-        :root { --primary: #ff6600; --bg: #f4f4f4; --card-bg: #fff; --text: #333; }
+        :root { --primary: #ff6600; --bg: #f4f4f4; --card-bg: #fff; --text: #333; --gold: #ffd700; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 80px; }
         
         /* Header */
         header { background: var(--primary); color: white; padding: 1rem; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         h1 { margin: 0; font-size: 1.2rem; font-weight: 600; }
 
+        /* Controls Bar (Filter) */
+        .controls-bar {
+            background: white;
+            padding: 8px 10px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            position: sticky;
+            top: 60px;
+            z-index: 95;
+        }
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+        .toggle-label { margin-right: 8px; color: #555; }
+        .toggle-input { display: none; }
+        .toggle-slider {
+            width: 40px; height: 22px; background: #ccc; border-radius: 20px; position: relative; transition: 0.3s;
+        }
+        .toggle-slider::before {
+            content: ""; position: absolute; width: 18px; height: 18px; border-radius: 50%; background: white; top: 2px; left: 2px; transition: 0.3s;
+        }
+        .toggle-input:checked + .toggle-slider { background: var(--primary); }
+        .toggle-input:checked + .toggle-slider::before { transform: translateX(18px); }
+
         /* Day Tabs */
-        .day-nav { display: flex; overflow-x: auto; background: white; padding: 10px 0; border-bottom: 1px solid #ddd; position: sticky; top: 60px; z-index: 90; scrollbar-width: none; }
+        .day-nav { display: flex; overflow-x: auto; background: white; padding: 10px 0; border-bottom: 1px solid #ddd; position: sticky; top: 110px; z-index: 90; scrollbar-width: none; }
         .day-nav::-webkit-scrollbar { display: none; }
         .day-btn { flex: 0 0 auto; padding: 8px 16px; margin: 0 5px; border: 1px solid #ddd; border-radius: 20px; background: white; color: #555; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; }
         .day-btn.active { background: var(--primary); color: white; border-color: var(--primary); font-weight: bold; }
@@ -23,10 +54,25 @@
         .time-block { margin-bottom: 20px; }
         .time-header { font-weight: bold; color: #666; font-size: 0.85rem; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
         
-        .artist-card { background: var(--card-bg); border-radius: 8px; padding: 12px; margin-bottom: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; border-left: 4px solid #ccc; }
-        .artist-info { flex-grow: 1; }
+        .artist-card { 
+            background: var(--card-bg); border-radius: 8px; padding: 12px; margin-bottom: 8px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; 
+            border-left: 4px solid #ccc; transition: transform 0.1s;
+        }
+        .artist-card:active { transform: scale(0.98); }
+        
+        /* Favorite Styles */
+        .artist-card.is-fav { border-left-color: var(--gold); background: #fffdf5; }
+        .artist-card.is-fav .star-icon { color: var(--gold); }
+
+        .artist-info { flex-grow: 1; margin-right: 10px; }
         .artist-name { font-weight: 600; font-size: 1rem; margin-bottom: 2px; line-height: 1.2; }
         .stage-name { font-size: 0.75rem; color: #666; text-transform: uppercase; }
+        
+        .star-btn {
+            background: none; border: none; font-size: 1.5rem; color: #ccc; cursor: pointer; padding: 0 5px;
+            display: flex; align-items: center; justify-content: center;
+        }
 
         /* Stage Colors */
         .stage-Orange { border-left-color: #ff6600; }
@@ -36,16 +82,29 @@
         .stage-Fauna { border-left-color: #6f42c1; }
         .stage-Gloria { border-left-color: #fd7e14; }
         .stage-Platform { border-left-color: #6c757d; }
+        
+        .empty-msg { text-align: center; color: #888; padding: 20px; font-style: italic; }
     </style>
 </head>
 <body>
 
 <header><h1>Roskilde 2026</h1></header>
+
+<!-- Filter Toggle -->
+<div class="controls-bar">
+    <label class="toggle-switch">
+        <span class="toggle-label">Show All</span>
+        <input type="checkbox" id="favToggle" class="toggle-input">
+        <span class="toggle-slider"></span>
+        <span class="toggle-label" style="color:var(--primary); font-weight:bold;">Favorites</span>
+    </label>
+</div>
+
 <div class="day-nav" id="dayNav"></div>
 <div class="schedule-container" id="scheduleList"></div>
 
 <script>
-    // FULL DATA FROM YOUR FILES
+    // --- DATA ---
     const scheduleData = {
         "Wednesday 1 Jul": [
             { t: "17:00", s: "EOS", n: "BIA" }, { t: "17:00", s: "Platform", n: "Dorotea Saykaly & Emil Dam Seidel" },
@@ -134,12 +193,35 @@
         ]
     };
 
+    // --- STATE MANAGEMENT ---
     const days = Object.keys(scheduleData);
     let currentDayIndex = 0;
+    let showFavoritesOnly = false;
 
+    // Load favorites from LocalStorage
+    let favorites = JSON.parse(localStorage.getItem('rks_favorites')) || [];
+
+    // --- FUNCTIONS ---
     function init() {
         renderDayNav();
         renderSchedule(days[currentDayIndex]);
+        
+        // Setup Toggle Listener
+        document.getElementById('favToggle').addEventListener('change', (e) => {
+            showFavoritesOnly = e.target.checked;
+            renderSchedule(days[currentDayIndex]);
+        });
+    }
+
+    function toggleFavorite(artistName) {
+        const index = favorites.indexOf(artistName);
+        if (index > -1) {
+            favorites.splice(index, 1); // Remove
+        } else {
+            favorites.push(artistName); // Add
+        }
+        localStorage.setItem('rks_favorites', JSON.stringify(favorites));
+        renderSchedule(days[currentDayIndex]); // Re-render to update UI
     }
 
     function renderDayNav() {
@@ -148,7 +230,7 @@
         days.forEach((day, index) => {
             const btn = document.createElement('button');
             btn.className = `day-btn ${index === currentDayIndex ? 'active' : ''}`;
-            btn.textContent = day.split(' ')[0]; // Short name
+            btn.textContent = day.split(' ')[0];
             btn.onclick = () => {
                 currentDayIndex = index;
                 renderDayNav();
@@ -163,15 +245,19 @@
         container.innerHTML = '';
         const events = scheduleData[day];
         
-        if (!events || events.length === 0) {
-            container.innerHTML = '<p style="text-align:center; color:#888;">No schedule data.</p>';
-            return;
-        }
+        if (!events || events.length === 0) return;
 
         let currentTime = null;
         let timeBlock = null;
+        let hasVisibleEvents = false;
 
         events.forEach(event => {
+            // Filter Logic
+            if (showFavoritesOnly && !favorites.includes(event.n)) {
+                return; // Skip this event
+            }
+            hasVisibleEvents = true;
+
             if (event.t !== currentTime) {
                 currentTime = event.t;
                 timeBlock = document.createElement('div');
@@ -184,19 +270,26 @@
                 container.appendChild(timeBlock);
             }
 
+            const isFav = favorites.includes(event.n);
             const card = document.createElement('div');
-            // Map stage names to CSS classes (remove "Scene" if present for class matching)
             const stageClass = event.s.replace(" Scene", ""); 
-            card.className = `artist-card stage-${stageClass}`;
+            card.className = `artist-card stage-${stageClass} ${isFav ? 'is-fav' : ''}`;
             
             card.innerHTML = `
                 <div class="artist-info">
                     <div class="artist-name">${event.n}</div>
                     <div class="stage-name">${event.s}</div>
                 </div>
+                <button class="star-btn" onclick="toggleFavorite('${event.n.replace(/'/g, "\\'")}')">
+                    ${isFav ? '★' : '☆'}
+                </button>
             `;
             timeBlock.appendChild(card);
         });
+
+        if (showFavoritesOnly && !hasVisibleEvents) {
+            container.innerHTML = '<div class="empty-msg">No favorites for this day yet. Tap the star ★ to add one!</div>';
+        }
     }
 
     init();
