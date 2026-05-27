@@ -54,18 +54,19 @@
             height: 46px; 
         }
         h1 { margin: 0; font-size: 1rem; font-weight: 600; flex-shrink: 0; }
+        @media (max-width: 419px) { .title-word { display: none; } }
 
         /* SEGMENTED CONTROL */
+        .header-left  { display: flex; align-items: center; gap: 10px; }
+        .header-right { display: flex; align-items: center; gap: 2px; }
+
         .segmented-control {
             background: rgba(255,255,255,0.2);
             border-radius: 16px;
             padding: 2px;
             display: flex;
-            position: relative;
-            flex-grow: 1;
-            margin: 0 12px;
-            max-width: 180px;
-            height: 28px; 
+            width: 148px;
+            height: 28px;
         }
         .segment-opt {
             flex: 1;
@@ -179,6 +180,43 @@
         
         .empty-msg { text-align: center; color: #888; padding: 20px; font-style: italic; }
 
+        /* SEARCH */
+        .search-icon-btn {
+            background: none; border: none; color: white; cursor: pointer;
+            padding: 0 6px; display: flex; align-items: center; flex-shrink: 0;
+            opacity: 0.9;
+        }
+        .search-icon-btn:hover { opacity: 1; }
+        .search-wrap {
+            display: none;
+            position: sticky;
+            top: 46px;
+            z-index: 90;
+            background: white;
+            padding: 8px 10px;
+            border-bottom: 1px solid #ddd;
+            align-items: center;
+            gap: 8px;
+        }
+        .search-wrap.open { display: flex; }
+        .search-input {
+            flex: 1;
+            padding: 8px 14px;
+            border: 1.5px solid #ddd;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            background: #f8f8f8;
+            outline: none;
+            -webkit-appearance: none;
+            font-family: inherit;
+        }
+        .search-input:focus { border-color: var(--primary); background: white; }
+        .search-close-btn {
+            background: none; border: none; font-size: 1.2rem; color: #888;
+            cursor: pointer; padding: 0 4px; flex-shrink: 0; line-height: 1;
+        }
+        .search-result-meta { font-size: 0.72rem; color: #888; margin-top: 2px; }
+
         /* INFO MODAL */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -206,22 +244,38 @@
 
 <!-- HEADER -->
 <header>
-    <h1>Roskilde 2026</h1>
-    
-    <!-- Segmented Control -->
-    <div class="segmented-control">
-        <div class="segment-opt active" id="segAll" onclick="setFilter(false)">Show All</div>
-        <div class="segment-opt" id="segFav" onclick="setFilter(true)">Favorites</div>
+    <div class="header-left">
+        <h1><span class="title-word">Roskilde </span>2026</h1>
+        <div class="segmented-control">
+            <div class="segment-opt active" id="segAll" onclick="setFilter(false)">Show All</div>
+            <div class="segment-opt" id="segFav" onclick="setFilter(true)">Favorites</div>
+        </div>
     </div>
-
-    <button class="info-btn" onclick="openModal()">Info</button>
+    <div class="header-right">
+        <button class="search-icon-btn" onclick="openSearch()" id="searchIconBtn" aria-label="Search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/>
+            </svg>
+        </button>
+        <button class="info-btn" onclick="openModal()">Info</button>
+    </div>
 </header>
+
+<!-- SEARCH BAR (hidden until icon tapped) -->
+<div class="search-wrap" id="searchWrap">
+    <input class="search-input" id="searchInput" type="search" placeholder="Search all artists…"
+           oninput="handleSearch(this.value)" autocomplete="off" autocorrect="off" spellcheck="false">
+    <button class="search-close-btn" onclick="closeSearch()">✕</button>
+</div>
 
 <!-- DAY TABS -->
 <div class="day-nav" id="dayNav"></div>
 
 <!-- SCHEDULE -->
 <div class="schedule-container" id="scheduleList"></div>
+
+<!-- SEARCH RESULTS -->
+<div class="schedule-container" id="searchResults" style="display:none"></div>
 
 <!-- INFO MODAL -->
 <div class="modal-overlay" id="infoModal">
@@ -396,6 +450,7 @@
                 currentDayIndex = index;
                 renderDayNav();
                 renderSchedule(day);
+                window.scrollTo({ top: 0, behavior: 'instant' });
             };
             nav.appendChild(btn);
         });
@@ -451,6 +506,80 @@
         if (showFavoritesOnly && !hasVisibleEvents) {
             container.innerHTML = '<div class="empty-msg">No favorites for this day yet. Tap the star ★ to add one!</div>';
         }
+    }
+
+    // --- SEARCH ---
+    function openSearch() {
+        document.getElementById('searchWrap').classList.add('open');
+        document.getElementById('dayNav').style.display = 'none';
+        document.getElementById('searchInput').focus();
+    }
+
+    function closeSearch() {
+        document.getElementById('searchInput').value = '';
+        document.getElementById('searchWrap').classList.remove('open');
+        document.getElementById('dayNav').style.display = '';
+        document.getElementById('searchResults').style.display = 'none';
+        document.getElementById('scheduleList').style.display = '';
+    }
+
+    function handleSearch(query) {
+        const q = query.trim().toLowerCase();
+        const scheduleEl = document.getElementById('scheduleList');
+        const resultsEl  = document.getElementById('searchResults');
+        if (!q) {
+            resultsEl.style.display = 'none';
+            scheduleEl.style.display = '';
+            return;
+        }
+        scheduleEl.style.display = 'none';
+        resultsEl.style.display = '';
+        renderSearchResults(q);
+    }
+
+    function renderSearchResults(q) {
+        const container = document.getElementById('searchResults');
+        container.innerHTML = '';
+        let count = 0;
+
+        days.forEach(day => {
+            scheduleData[day].forEach(event => {
+                if (!event.n.toLowerCase().includes(q)) return;
+                count++;
+
+                const isFav = favorites.includes(event.n);
+                const card = document.createElement('div');
+                const stageClass = event.s.replace(' Scene', '');
+                card.className = `artist-card stage-${stageClass} ${isFav ? 'is-fav' : ''}`;
+
+                const safeName = event.n.replace(/'/g, "\\'");
+                const artistUrl = event.url ||
+                    `https://www.roskilde-festival.dk/en/line-up/${event.p || 'music'}/${event.slug || generateSlug(event.n)}`;
+
+                const shortDay = day.replace(' Jul', '');
+
+                card.innerHTML = `
+                    <div class="artist-info">
+                        <a class="artist-name" href="${artistUrl}" target="_blank" rel="noopener">${event.n}</a>
+                        <div class="search-result-meta">${shortDay} · ${event.t} · ${event.s}</div>
+                    </div>
+                    <button class="star-btn" onclick="toggleFavoriteSearch('${safeName}')">
+                        ${isFav ? '★' : '☆'}
+                    </button>
+                `;
+                container.appendChild(card);
+            });
+        });
+
+        if (count === 0) {
+            container.innerHTML = '<div class="empty-msg">No artists found.</div>';
+        }
+    }
+
+    function toggleFavoriteSearch(artistName) {
+        toggleFavorite(artistName);
+        const q = document.getElementById('searchInput').value.trim().toLowerCase();
+        if (q) renderSearchResults(q);
     }
 
     // Modal Functions
