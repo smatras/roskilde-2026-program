@@ -508,6 +508,21 @@
         }
     }
 
+    // --- iOS ZOOM FIX ---
+    // Prevent iOS Safari from zooming the viewport when the search input is focused.
+    // We temporarily set maximum-scale=1 on focus, then restore it on blur.
+    function setViewportScale(scale) {
+        const vp = document.querySelector('meta[name="viewport"]');
+        if (vp) vp.setAttribute('content', `width=device-width, initial-scale=1.0, maximum-scale=${scale}`);
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        const input = document.getElementById('searchInput');
+        if (input) {
+            input.addEventListener('focus', () => setViewportScale(1));
+            input.addEventListener('blur',  () => setViewportScale(5));
+        }
+    });
+
     // --- SEARCH ---
     function openSearch() {
         document.getElementById('searchWrap').classList.add('open');
